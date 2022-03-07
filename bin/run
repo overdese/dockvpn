@@ -20,7 +20,7 @@ chmod 600 key.pem
     openssl x509 -req -in csr.pem -out cert.pem -signkey key.pem -days 24855
 
 [ -f tcp443.conf ] || cat >tcp443.conf <<EOF
-server 192.168.255.0 255.255.255.128
+server 192.168.254.0 255.255.255.128
 cipher AES-256-CBC
 verb 3
 duplicate-cn
@@ -41,7 +41,7 @@ status openvpn-status-443.log
 EOF
 
 [ -f udp1194.conf ] || cat >udp1194.conf <<EOF
-server 192.168.255.128 255.255.255.128
+server 192.168.254.128 255.255.255.128
 cipher AES-256-CBC
 verb 3
 duplicate-cn
@@ -105,7 +105,7 @@ Content-Length: `wc -c client.ovpn`
 `cat client.ovpn`
 EOF
 
-iptables -t nat -A POSTROUTING -s 192.168.255.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 192.168.254.0/24 -o eth0 -j MASQUERADE
 
 touch tcp443.log udp1194.log http8080.log
 while true ; do openvpn tcp443.conf ; done >> tcp443.log &
